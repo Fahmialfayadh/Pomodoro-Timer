@@ -5,7 +5,7 @@ import winsound
 
 pygame.init()
 
-# aplikasi settings
+# Setting aplikasi
 WIDTH, HEIGHT = 900, 600
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Pomodoro Timer")
@@ -17,23 +17,23 @@ BACKDROP = pygame.image.load("assets/backgrounde.jpg")
 WHITE_BUTTON = pygame.image.load("assets/button.png")
 
 # Fonts
-FONT = pygame.font.Font("assets/ArialRoundedMTBold.ttf", 120)  # Font utama untuk timer
+FONT = pygame.font.Font("assets/ArialRoundedMTBold.ttf", 120)  
 SMALL_FONT = pygame.font.Font("assets/ArialRoundedMTBold.ttf", 60)  # Font untuk "Waktu Habis!"
 
 # Buttons
 START_STOP_BUTTON = Button(WHITE_BUTTON, (WIDTH / 2, HEIGHT / 2 + 100), 170, 60, "START", 
                            pygame.font.Font("assets/ArialRoundedMTBold.ttf", 20), "#ff2c2c", "#9ab034")
-POMODORO_BUTTON = Button(None, (WIDTH / 2 - 150, HEIGHT / 2 - 140), 120, 30, "Pomodoro", 
+POMODORO_BUTTON = Button(None, (WIDTH / 2 - 150, HEIGHT / 2 - 140), 120, 30, "Belajar", 
                          pygame.font.Font("assets/ArialRoundedMTBold.ttf", 20), "#FFFFFF", "#ff2c2c")
 SHORT_BREAK_BUTTON = Button(None, (WIDTH / 2, HEIGHT / 2 - 140), 120, 30, "Short Break", 
                             pygame.font.Font("assets/ArialRoundedMTBold.ttf", 20), "#FFFFFF", "#ff2c2c")
 LONG_BREAK_BUTTON = Button(None, (WIDTH / 2 + 150, HEIGHT / 2 - 140), 120, 30, "Long Break", 
                            pygame.font.Font("assets/ArialRoundedMTBold.ttf", 20), "#FFFFFF", "#ff2c2c")
 
-# Timer durations
-POMODORO_LENGTH = 1500  
-SHORT_BREAK_LENGTH = 300  
-LONG_BREAK_LENGTH = 900 
+# Durasi Timer
+POMODORO_LENGTH = 4  # 25 menit
+SHORT_BREAK_LENGTH = 300  # 5 menit
+LONG_BREAK_LENGTH = 900  # 15 menit
 
 # Initial settings
 current_seconds = POMODORO_LENGTH
@@ -50,11 +50,8 @@ while True:
             sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
             if START_STOP_BUTTON.check_for_input(pygame.mouse.get_pos()):
-                if started:
-                    started = False
-                else:
-                    started = True
-                    timer_expired = False
+                started = not started
+                timer_expired = False
             if POMODORO_BUTTON.check_for_input(pygame.mouse.get_pos()):
                 active_timer_length = POMODORO_LENGTH
                 current_seconds = POMODORO_LENGTH
@@ -87,13 +84,16 @@ while True:
                 current_seconds = 0
                 started = False
                 timer_expired = True
-                winsound.Beep(1000, 1000)  # SUARA beeep
-                print("Waktu Habis!") 
+                
+                # Suara peringatan
+                for _ in range(5):
+                    winsound.Beep(700, 1000)
+                    print("Waktu Habis!")       
 
                 # Reset timer
                 current_seconds = active_timer_length
 
-    # Drawing background and buttons
+    # Menggambar background dan tombol
     SCREEN.fill("#ba4949")
     SCREEN.blit(BACKDROP, BACKDROP.get_rect(center=(WIDTH / 2, HEIGHT / 2)))
 
@@ -106,7 +106,7 @@ while True:
     LONG_BREAK_BUTTON.update(SCREEN)
     LONG_BREAK_BUTTON.change_color(pygame.mouse.get_pos())
 
-    # Timer display
+    # Menampilkan timer
     if timer_expired:
         timer_text = SMALL_FONT.render("HABIS DEK!!!", True, "white")
         timer_text_rect = timer_text.get_rect(center=(WIDTH / 2, HEIGHT / 2))
