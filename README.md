@@ -1,6 +1,8 @@
 # Pomodoro-Timer
-3 pilihan timer:
-1. Waktu fokus/belajar = 25 menit
-2. Short break = 5 menit
-3. Long break = 15 menit
+using pygame
+
+3 timer options:
+1. study/focus = 25 minutes
+2. Short break = 5 minutes 
+3. Long break = 15 minutes
    
